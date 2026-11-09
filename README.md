@@ -1,66 +1,85 @@
-# 🌋 Vulkan Starter App
+# 🎓 MAI Computer Graphics Labs (Vulkan)
 
-## Getting started
+Учебный репозиторий по курсу компьютерной графики (МАИ). Проект построен на **C++20**, **Vulkan**, **GLFW** и **ImGUI**, с кроссплатформенной поддержкой **Linux** и **Windows**.
 
-You need C++ compiler, Vulkan SDK and CMake installed before you can build this project.
+---
 
-This project uses C++20 standard and thus requires either of those compilers:
-- GCC 10.X
-- Clang 10
-- Microsoft Visual Studio 2019
+## 📁 Структура проекта
 
-This is officially tested on *Windows* and *GNU/Linux platforms*, no *macOS* support yet.
-If you have a working macOS solution of this code, consider submitting a PR so others
-can build this example code without a hassle!
-
-<ins>**1. Downloading the repository**</ins>
-
-Start by cloning the repository with `git clone --depth 1 https://github.com/vladeemerr/vulkan-starter-app`
-
-This repository does not contain any submodules, it utilizes CMake's `FetchContent` feature instead.
-
-<ins>**2. Configuring the project**</ins>
-
-Run either one of the CMake lines to download dependencies and configure the project:
-
-```bash
-cmake --preset debug       # for GNU/Linux (GCC/Clang)
-cmake --preset msvc-debug  # for Windows (Visual Studio 2019)
-cmake --preset mingw-debug # for Windows (MinGW)
+```text
+├── docs/                 # ТЗ и методические материалы к лабораторным работам
+│   ├── CG Lab #1.pdf
+│   └── Lab #2 Camera and Lighting.pdf
+├── common/               # Общий фреймворк для всех лабораторных (библиотека mai_framework)
+│   ├── include/          # Заголовочные файлы (graphics_internal.hpp, application.hpp)
+│   └── source/           # Инициализация Vulkan, GLFW, swapchain, depth buffer, ImGUI и main loop
+├── lab1/                 # Лабораторная работа №1 (Тор, аффинные трансформации, проекции)
+│   ├── CMakeLists.txt
+│   ├── shaders/          # Шейдеры (shader.vert, shader.frag)
+│   └── source/           # Исходный код приложения (application.cpp, torus.cpp/hpp)
+├── lab2/                 # Лабораторная работа №2 (Камера и Блинн-Фонг освещение)
+│   ├── shaders/
+│   └── source/
+├── CMakeLists.txt        # Корневой CMake (управление зависимостями и таргетами)
+├── CMakePresets.json     # Пресеты конфигурации CMake
+└── README.md
 ```
 
-If you wish to build in `release` mode, change `debug` to `release`.
+---
 
-If changes are made (added/removed files), or if you want to regenerate project files, rerun the command above.
+## 🛠️ Требования для сборки
 
-<ins>**3. Building**</ins>
+- **Компилятор C++20**: GCC 10+ / Clang 10+ / MSVC 2019+
+- **Vulkan SDK** & драйвер с поддержкой Vulkan 1.3+
+- **CMake** 3.20+
+- **Ninja** (или Make / Visual Studio)
 
-To build the project, use the line below. You are most likely using `debug` preset, so
-the directory that will eventually contain your build files is named `build-debug`.
+Все внешние библиотеки (`glfw`, `vk-bootstrap`, `VulkanMemoryAllocator`, `imgui`, `glm`) загружаются автоматически через `FetchContent`.
 
-Likewise for `release` that directory will be named `build-release`
+---
 
-Run one those commands, depending on which preset you chose:
+## 🚀 Сборка и запуск
 
+### 1. Конфигурация через пресеты
+
+**В Linux:**
 ```bash
-cmake --build build-debug --parallel # for debug
-cmake --build build-release --parallel # for release
+cmake --preset debug        # Сборка в Debug
+# или
+cmake --preset release      # Сборка в Release
 ```
 
-### Running
+**В Windows:**
+```bash
+cmake --preset mingw-debug  # Для MinGW / GCC
+# или
+cmake --preset msvc-debug   # Для Visual Studio
+```
 
-`build-*` directory will contain the executable in one of the subdirectories after successful build.
+### 2. Сборка
 
-For `msvc-{debug|release}` builds output subdirectory is set to `Debug` or `Release` respectively.
-For other configurations output subdirectory is set to `vulkan-starter-app`.
+Сборка всех таргетов:
+```bash
+cmake --build build-debug --parallel
+```
 
-**Make sure your working directory is set to the project root!**
-Project root is where this README file resides. Otherwise, the
-code responsible for loading shaders or other resources from files will fail,
-because relative paths are used.
+Или конкретной лабораторной:
+```bash
+cmake --build build-debug --target lab1
+# или
+cmake --build build-debug --target lab2
+# или
+cmake --build build-debug --target lab3
+```
 
-### Compiling shaders
+### 3. Запуск
 
-`CMakeLists.txt` has a build recipe for compiling shader files
-along with an application. Look for a comment in this file to see
-how to compile your shaders.
+Шейдеры и текстуры автоматически копируются рядом с исполняемым файлом и ищутся по относительным путям, поэтому запуск работает из любой директории:
+```bash
+./build-debug/lab1/lab1
+# или
+./build-debug/lab2/lab2
+# или
+./build-debug/lab3/lab3
+```
+*(В Windows: `.\build-debug\lab1\lab1.exe` или `.\build-debug\lab1\Debug\lab1.exe`)*

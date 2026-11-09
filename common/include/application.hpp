@@ -4,6 +4,8 @@
 
 namespace application {
 
+const char* getTitle();
+
 bool initialize();
 void shutdown();
 

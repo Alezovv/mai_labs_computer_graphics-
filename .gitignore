@@ -1,3 +1,9 @@
 build-*/
-shaders/*.spv
+build/
+*.spv
+**/shaders/*.spv
 imgui.ini
+.cache/
+.vscode/
+.idea/
+*.user
