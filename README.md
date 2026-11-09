@@ -1,4 +1,4 @@
-# 🎓 MAI Computer Graphics Labs (Vulkan)
+# MAI Computer Graphics Labs (Vulkan)
 
 Учебный репозиторий по курсу компьютерной графики (МАИ). Проект построен на **C++20**, **Vulkan**, **GLFW** и **ImGUI**, с кроссплатформенной поддержкой **Linux** и **Windows**.
 
